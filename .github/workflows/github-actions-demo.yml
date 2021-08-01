@@ -12,5 +12,6 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Unity - Builder
         uses: game-ci/unity-builder@v2.0-alpha-11
-
+        with:
+            targetPlatform: WebGL
       - run: echo "🍏 This job's status is ${{ job.status }}."
