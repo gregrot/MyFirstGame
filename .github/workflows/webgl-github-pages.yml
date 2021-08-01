@@ -25,12 +25,12 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           targetPlatform: WebGL
-      - name: Deploy to GitHub Pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          target_branch: gh-pages
-          build_dir: build
+          branch: gh-pages
+          folder: build/WebGL/WebGL
+          target-folder: web
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
