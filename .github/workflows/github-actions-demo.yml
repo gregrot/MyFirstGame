@@ -29,4 +29,13 @@ jobs:
         with:
           name: Build
           path: build
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - run: echo "🍏 This job's status is ${{ job.status }}."
