@@ -10,8 +10,9 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Unity - Builder
-        uses: game-ci/unity-builder@v2.0-alpha-11
+      - uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-            targetPlatform: WebGL
+          targetPlatform: WebGL
       - run: echo "🍏 This job's status is ${{ job.status }}."
