@@ -1,10 +1,10 @@
 name: Build WebGL Version
 on: 
   push:
-    branches:
-      - '!gh-pages'
+    branches-ignore:
+      - gh-pages
 jobs:
-  Explore-GitHub-Actions:
+  Buid-Unity-Racing-Game-WebGL:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/cache@v2
