@@ -1,5 +1,8 @@
 name: Build WebGL Version
-on: [push]
+on: 
+  push:
+    branches:
+      - '!gh-pages'
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
