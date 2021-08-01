@@ -7,6 +7,7 @@ public class PlayerCar : MonoBehaviour
     [SerializeField] float acceleration = 8;
     [SerializeField] float turnSpeed = 80;
     [SerializeField] float targetSensitivity = 15;
+    [SerializeField] bool autopilot = true;
     Quaternion targetRotation;
     Rigidbody _rigidBody;
 
@@ -40,11 +41,11 @@ public class PlayerCar : MonoBehaviour
         // How far away from the checkpoint are we
         Vector3 currentTarget = targets[currentTargetId];
         float dist = Mathf.Abs((currentTarget - transform.position).magnitude);
-        Debug.Log(dist);
+        //Debug.Log(dist);
         if(dist < targetSensitivity) {
             currentTargetId = (currentTargetId+1) % targets.Length;
         }
-        Debug.Log(currentTargetId);
+        //Debug.Log(currentTargetId);
 
     }
     private void SetSideSlip()
@@ -57,11 +58,27 @@ public class PlayerCar : MonoBehaviour
     }
     private void SetRotationPoint()
     {
-        Vector3 currentTarget = targets[currentTargetId];
-        Vector3 direction = currentTarget - transform.position;
-        float rotationAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-        targetRotation = Quaternion.Euler(0, rotationAngle, 0);
+        if(autopilot){
 
+        
+            Vector3 currentTarget = targets[currentTargetId];
+            Vector3 direction = currentTarget - transform.position;
+            float rotationAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            targetRotation = Quaternion.Euler(0, rotationAngle, 0);
+        }
+        else {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane plane = new Plane(Vector3.up, Vector3.zero);
+            float distance;
+            if (plane.Raycast(ray, out distance))
+            {
+                Vector3 target = ray.GetPoint(distance);
+                Vector3 direction = target - transform.position;
+                float rotationAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                targetRotation = Quaternion.Euler(0, rotationAngle, 0);
+            }
+
+        }
 
 
         //Ray ray = Camera.main.ScreenPointToRay(currentTarget);
@@ -84,5 +101,6 @@ public class PlayerCar : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, turnSpeed * Mathf.Clamp(speed, -1, 1) * Time.fixedDeltaTime);
         Debug.DrawLine(transform.position, transform.position + _rigidBody.velocity, Color.red);
         Debug.DrawLine(transform.position, targets[currentTargetId], Color.green);
+        //Debug.Log("hsdf");
     }
 }
